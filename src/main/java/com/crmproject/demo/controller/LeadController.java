@@ -26,12 +26,6 @@ public class LeadController {
         return service.listarTodos();
     }
 
-    // GET /api/leads/{id} - Busca um lead por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Lead> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(service.buscarPorId(id));
-    }
-
     // POST /api/leads - Cria um novo lead
     @PostMapping
     public ResponseEntity<Lead> criar(@Valid @RequestBody Lead lead) {

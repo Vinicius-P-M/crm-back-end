@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
     "empresa": "lexcorp",
-    "cnpj": "12375650000174",
-    "valorContrato": 5000.00
+    "cnpj": "121451819",
+    "valorContrato": 300.00
 }
 
 ### Listar todos os leads
