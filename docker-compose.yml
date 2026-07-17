@@ -5,3 +5,4 @@ services:
       - "8082:8082"
     environment:
       - SPRING_PROFILES_ACTIVE=default
+      - SUPABASE_DB_PASSWORD=${SUPABASE_DB_PASSWORD}
