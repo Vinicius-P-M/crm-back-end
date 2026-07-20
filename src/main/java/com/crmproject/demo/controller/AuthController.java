@@ -2,6 +2,7 @@ package com.crmproject.demo.controller;
 
 import com.crmproject.demo.dto.AuthResponse;
 import com.crmproject.demo.dto.LoginRequest;
+import com.crmproject.demo.dto.UserResponse;
 import com.crmproject.demo.model.User;
 import com.crmproject.demo.security.JwtService;
 import com.crmproject.demo.service.UserService;
@@ -13,8 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -45,14 +49,20 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
+    // GET /api/auth/me - Dados do usuário autenticado (usado pelo front-end para decisões de UI por role)
+    @GetMapping("/me")
+    public UserResponse me(@AuthenticationPrincipal User user) {
+        return new UserResponse(user.getEmail(), user.getRole());
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<String> handleBadCredentials() {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou senha inválidos");
+    public ResponseEntity<Map<String, String>> handleBadCredentials() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Email ou senha inválidos"));
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handleDuplicateEmail() {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Email já cadastrado");
+    public ResponseEntity<Map<String, String>> handleDuplicateEmail() {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", "Email já cadastrado"));
     }
 
 }

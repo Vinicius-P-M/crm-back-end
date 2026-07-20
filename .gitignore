@@ -37,3 +37,6 @@ build/
 
 ### Environment secrets ###
 .env
+
+### Claude Code local session settings ###
+.claude/settings.local.json
