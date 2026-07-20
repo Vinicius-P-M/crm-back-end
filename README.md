@@ -1,7 +1,9 @@
 # CRM Lead Management API
 
+This is the **backend** of a full-stack CRM system. The companion frontend (Next.js) lives in a separate repository: [crm-front-end](https://github.com/Vinicius-P-M/crm-front-end).
+
 ## 📖 Overview
-This project is a RESTful API developed for managing sales leads, focusing on traceability, efficient status workflows, and secure data persistence. The application was built to demonstrate solid software engineering principles, scalable system architecture, and stateless authentication with role-based access control.
+This project is a RESTful API developed for managing sales leads, focusing on traceability, efficient status workflows, and secure data persistence. The application was built to demonstrate solid software engineering principles, scalable system architecture, and stateless authentication with role-based access control. It is consumed by a Next.js frontend as the sole client of this API.
 
 ## 💼 Business Applicability
 The system addresses the need to centralise the lifecycle of a potential customer (lead), while ensuring that only authorised personnel can act on that data. With this backend, companies can:
@@ -39,9 +41,9 @@ Authentication is handled via **JWT (JSON Web Token)**:
 
 | Route | Method | Allowed roles |
 |---|---|---|
-| `/api/leads` | `GET` | `COORDENADOR`, `ANALISTA`, `ESTAGIARIO` |
-| `/api/leads` | `POST` | `COORDENADOR`, `ANALISTA` |
-| `/api/leads/{id}/status` | `PUT` | `COORDENADOR`, `ANALISTA` |
+| `/api/leads/**` | `GET` | `COORDENADOR`, `ANALISTA`, `ESTAGIARIO` |
+| `/api/leads/**` | `POST` | `COORDENADOR`, `ANALISTA` |
+| `/api/leads/**` | `PUT` | `COORDENADOR`, `ANALISTA` |
 
 Requests without a valid token receive a `401 Unauthorized`; authenticated requests without the required role receive a `403 Forbidden` — both with a clear JSON body describing the error.
 
@@ -91,6 +93,14 @@ JWT_SECRET=a_long_random_base64_secret
 |---|---|---|---|
 | `POST` | `/api/auth/register` | Register a new user | No |
 | `POST` | `/api/auth/login` | Log in and receive a JWT | No |
+| `GET` | `/api/auth/me` | Get the authenticated user's email and role | Yes (any role) |
 | `GET` | `/api/leads` | List all leads | Yes (any role) |
+| `GET` | `/api/leads/recentes` | List the 10 most recently created/updated leads | Yes (any role) |
+| `GET` | `/api/leads/stats` | Aggregated count and contract value per status | Yes (any role) |
+| `GET` | `/api/leads/{id}` | Get a single lead by ID | Yes (any role) |
 | `POST` | `/api/leads` | Create a new lead | Yes (`COORDENADOR`, `ANALISTA`) |
 | `PUT` | `/api/leads/{id}/status` | Update a lead's status | Yes (`COORDENADOR`, `ANALISTA`) |
+
+## 🖥️ Frontend
+
+This API has no server-rendered views or CORS configuration open to browsers — it is designed to be consumed exclusively through a **Backend-for-Frontend (BFF)** pattern. The [crm-front-end](https://github.com/Vinicius-P-M/crm-front-end) Next.js application talks to this API exclusively server-side (Server Components and Server Actions), storing the JWT in an `httpOnly` cookie that never reaches the browser's JavaScript. See that repository's README for the frontend architecture.
