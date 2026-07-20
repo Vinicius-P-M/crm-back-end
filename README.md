@@ -1,6 +1,6 @@
 # CRM Lead Management API
 
-This is the **backend** of a full-stack CRM system. The companion frontend (Next.js) lives in a separate repository: [crm-frontend](https://github.com/Vinicius-P-M/crm-frontend).
+This is the **backend** of a full-stack CRM system. The companion frontend (Next.js) lives in a separate repository: [crm-front-end](https://github.com/Vinicius-P-M/crm-front-end).
 
 ## 📖 Overview
 This project is a RESTful API developed for managing sales leads, focusing on traceability, efficient status workflows, and secure data persistence. The application was built to demonstrate solid software engineering principles, scalable system architecture, and stateless authentication with role-based access control. It is consumed by a Next.js frontend as the sole client of this API.
@@ -103,4 +103,4 @@ JWT_SECRET=a_long_random_base64_secret
 
 ## 🖥️ Frontend
 
-This API has no server-rendered views or CORS configuration open to browsers — it is designed to be consumed exclusively through a **Backend-for-Frontend (BFF)** pattern. The [crm-frontend](https://github.com/Vinicius-P-M/crm-frontend) Next.js application talks to this API exclusively server-side (Server Components and Server Actions), storing the JWT in an `httpOnly` cookie that never reaches the browser's JavaScript. See that repository's README for the frontend architecture.
+This API has no server-rendered views or CORS configuration open to browsers — it is designed to be consumed exclusively through a **Backend-for-Frontend (BFF)** pattern. The [crm-front-end](https://github.com/Vinicius-P-M/crm-front-end) Next.js application talks to this API exclusively server-side (Server Components and Server Actions), storing the JWT in an `httpOnly` cookie that never reaches the browser's JavaScript. See that repository's README for the frontend architecture.
